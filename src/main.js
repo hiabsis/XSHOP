@@ -105,7 +105,30 @@ Vue.component(MyLogin.name, MyLogin);
 import MyRegister from './components/MyRegister';
 Vue.component(MyRegister.name, MyRegister);
 
+import ParamTabPane from "./components/admin/product/params/ParamTabPane";
+Vue.component(ParamTabPane.name, ParamTabPane);
+
+import UploadImg from "./components/common/UploadImg";
+Vue.component(UploadImg.name, UploadImg);
 Vue.config.productionTip = false;
+import VueCropper from 'vue-cropper';
+import 'vue-cropper/dist/index.css'
+Vue.use(VueCropper);
+import api from './api/api'
+Vue.prototype.$api = api;
+
+import UploadCropper from 'vue-upload-cropper'
+
+Vue.component('upload-cropper', UploadCropper)
+
+import UploadModel from "./components/common/UploadModel";
+Vue.component(UploadModel.name, UploadModel);
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
 
 new Vue({
   router,

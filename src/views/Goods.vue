@@ -80,21 +80,21 @@ export default {
     this.total = 0; // 初始化商品总量为0
     this.currentPage = 1; //初始化当前页码为1
     // 如果路由没有传递参数，默认为显示全部商品
-    if (Object.keys(this.$route.query).length == 0) {
+    if (Object.keys(this.$route.query).length === 0) {
       this.categoryID = [];
       this.activeName = "0";
       return;
     }
     // 如果路由传递了categoryID，则显示对应的分类商品
-    if (this.$route.query.categoryID != undefined) {
+    if (this.$route.query.categoryID !== undefined) {
       this.categoryID = this.$route.query.categoryID;
-      if (this.categoryID.length == 1) {
+      if (this.categoryID.length === 1) {
         this.activeName = "" + this.categoryID[0];
       }
       return;
     }
     // 如果路由传递了search，则为搜索，显示对应的分类商品
-    if (this.$route.query.search != undefined) {
+    if (this.$route.query.search !== undefined) {
       this.search = this.$route.query.search;
     }
   },

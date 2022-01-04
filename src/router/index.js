@@ -8,10 +8,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
+import Goods from '../components/admin/product/GoodsIndex'
+import Category from '../components/admin/product/CategoryIndex'
+import Params from "../components/admin/product/ParamsIndex";
+
+import GoodsAdd from "../components/admin/product/goods/GoodsAdd";
+
 Vue.use(Router)
 
 const routes = [
-
+  {
+    path:'/Test',
+    name: 'Test',
+    component: () => import('../views/Test.vue')
+  },
+  {
+    path: '/HomeIndex',
+    name: 'HomeIndex',
+    component: () => import('../views/HomeIndex.vue')
+  },
   {
     path: '/',
     name: 'Home',
@@ -21,6 +37,11 @@ const routes = [
     path: '/error',
     name: 'Error',
     component: () => import('../components/Error.vue')
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: () => import('../views/Products.vue')
   },
   {
     path: '/goods',
@@ -60,6 +81,33 @@ const routes = [
     meta: {
       requireAuth: true // 需要验证登录状态
     }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../components/admin/AdminIndex'),
+    children: [
+      {
+        path: 'goodsIndex',
+        name: 'GoodsIndex',
+        component: Goods
+      },
+      {
+        path: 'CategoryIndex',
+        name: 'CategoryIndex',
+        component: Category
+      },
+      {
+        path: 'ParamsIndex',
+        name: 'ParamsIndex',
+        component: Params
+      },
+      {
+        path: 'GoodsAdd',
+        name: 'GoodsAdd',
+        component: GoodsAdd
+      },
+    ]
   },
   {
     path: '/confirmOrder',

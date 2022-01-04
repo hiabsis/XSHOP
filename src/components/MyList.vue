@@ -8,29 +8,28 @@
 <template>
   <div id="myList" class="myList">
     <ul>
-      <li v-for="item in list" :key="item.product_id">
+      <li v-for="item in list" :key="item.productId">
         <el-popover placement="top">
           <p>确定删除吗？</p>
           <div style="text-align: right; margin: 10px 0 0">
-            <el-button type="primary" size="mini" @click="deleteCollect(item.product_id)">确定</el-button>
+            <el-button type="primary" size="mini" @click="deleteCollect(item.productId)">确定</el-button>
           </div>
           <i class="el-icon-close delete" slot="reference" v-show="isDelete"></i>
         </el-popover>
-        <router-link :to="{ path: '/goods/details', query: {productID:item.product_id} }">
-          <img :src="$target +item.product_picture" alt />
-          <h2>{{item.product_name}}</h2>
-          <h3>{{item.product_title}}</h3>
+        <router-link :to="{ path: '/goods/details', query: {productID:item.productId} }">
+          <img src="https://statics.igg.com/shop/goods/2018/04/18/6a93da76d1a15b02d8ab69b1cbd491e133366.jpg" alt />
+          <h2>{{item.productName}}</h2>
           <p>
-            <span>{{item.product_selling_price}}元</span>
+            <span>{{item.productPrice}}元</span>
             <span
-              v-show="item.product_price != item.product_selling_price"
+              v-show="true"
               class="del"
-            >{{item.product_price}}元</span>
+            >{{item.productPrice}}元</span>
           </p>
         </router-link>
       </li>
       <li v-show="isMore && list.length>=1" id="more">
-        <router-link :to="{ path: '/goods', query: {categoryID:categoryID} }">
+        <router-link :to="{ path: '/products', query: {categoryID:getCategoryIds()} }">
           浏览更多
           <i class="el-icon-d-arrow-right"></i>
         </router-link>
@@ -43,55 +42,25 @@ export default {
   name: "MyList",
   // list为父组件传过来的商品列表
   // isMore为是否显示“浏览更多”
-  props: ["list", "isMore", "isDelete"],
+  props: ["list", "isMore", "isDelete","parentId"],
   data() {
-    return {};
+    return {
+      id:undefined
+    };
+  },
+  mounted() {
+
   },
   computed: {
-    // 通过list获取当前显示的商品的分类ID，用于“浏览更多”链接的参数
-    categoryID: function() {
-      let categoryID = [];
-      if (this.list != "") {
-        for (let i = 0; i < this.list.length; i++) {
-          const id = this.list[i].category_id;
-          if (!categoryID.includes(id)) {
-            categoryID.push(id);
-          }
-        }
-      }
-      return categoryID;
-    }
+
   },
   methods: {
-    deleteCollect(product_id) {
-      this.$axios
-        .post("/api/user/collect/deleteCollect", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: product_id
-        })
-        .then(res => {
-          switch (res.data.code) {
-            case "001":
-              // 删除成功
-              // 删除删除列表中的该商品信息
-              for (let i = 0; i < this.list.length; i++) {
-                const temp = this.list[i];
-                if (temp.product_id == product_id) {
-                  this.list.splice(i, 1);
-                }
-              }
-              // 提示删除成功信息
-              this.notifySucceed(res.data.msg);
-              break;
-            default:
-              // 提示删除失败信息
-              this.notifyError(res.data.msg);
-          }
-        })
-        .catch(err => {
-          return Promise.reject(err);
-        });
-    }
+    getCategoryIds(){
+      let categoryIds = [this.list[0].categoryId]
+      console.log(categoryIds)
+      return categoryIds;
+    },
+
   }
 };
 </script>

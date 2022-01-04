@@ -7,17 +7,18 @@
  -->
 <template>
   <div id="details">
+
     <!-- 头部 -->
     <div class="page-header">
       <div class="title">
-        <p>{{productDetails.product_name}}</p>
+        <p>{{productDetails.productName}}</p>
         <div class="list">
           <ul>
-            <li>
-              <router-link to>概述</router-link>
+            <li  >
+              <router-link to >概述</router-link>
             </li>
             <li>
-              <router-link to>参数</router-link>
+              <router-link to  >详情</router-link>
             </li>
             <li>
               <router-link to>用户评价</router-link>
@@ -32,63 +33,60 @@
     <div class="main">
       <!-- 左侧商品轮播图 -->
       <div class="block">
-        <el-carousel height="560px" v-if="productPicture.length>1">
-          <el-carousel-item v-for="item in productPicture" :key="item.id">
-            <img style="height:560px;" :src="$target + item.product_picture" :alt="item.intro" />
+        <el-carousel height="560px">
+          <el-carousel-item v-for="item in productDetails.url" :key="item.id">
+            <img style="height:560px;" :src="'api'+item"  />
           </el-carousel-item>
         </el-carousel>
-        <div v-if="productPicture.length==1">
-          <img
-            style="height:560px;"
-            :src="$target + productPicture[0].product_picture"
-            :alt="productPicture[0].intro"
-          />
-        </div>
       </div>
       <!-- 左侧商品轮播图END -->
 
       <!-- 右侧内容区 -->
       <div class="content">
-        <h1 class="name">{{productDetails.product_name}}</h1>
-        <p class="intro">{{productDetails.product_intro}}</p>
-        <p class="store">小米自营</p>
+        <h1 class="name">{{productDetails.productName}}</h1>
+        <p class="intro">{{productDetails.productDesc}}</p>
         <div class="price">
-          <span>{{productDetails.product_selling_price}}元</span>
+          <span>{{productDetails.productPrice}}元</span>
           <span
-            v-show="productDetails.product_price != productDetails.product_selling_price"
+            v-show="productDetails.productPrice != productDetails.productPrice"
             class="del"
-          >{{productDetails.product_price}}元</span>
+          >{{productDetails.productPrice}}元</span>
         </div>
         <div class="pro-list">
-          <span class="pro-name">{{productDetails.product_name}}</span>
+          <ul>
+            <li v-for="item in productDetails.productInfo" :key="item.productInfoId" style="margin-bottom: 10px"> {{item.name +"："+item.value}}</li>
+          </ul>
+
           <span class="pro-price">
-            <span>{{productDetails.product_selling_price}}元</span>
+
+            <span>{{productDetails.productPrice}}元</span>
             <span
-              v-show="productDetails.product_price != productDetails.product_selling_price"
+              v-show="true"
               class="pro-del"
-            >{{productDetails.product_price}}元</span>
+            >{{productDetails.productPrice}}元</span>
           </span>
-          <p class="price-sum">总计 : {{productDetails.product_selling_price}}元</p>
+          <p class="price-sum">总计 : {{productDetails.productPrice}}元</p>
         </div>
         <!-- 内容区底部按钮 -->
         <div class="button">
           <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart">加入购物车</el-button>
           <el-button class="like" @click="addCollect">喜欢</el-button>
         </div>
+        <br>
+        <div>
+
+          <div class="ql-container ql-snow">
+            <div class="ql-editor">
+              <div v-html="productDetails.productDetail">{{productDetails.productDetail}}</div>
+            </div>
+          </div>
+        </div>
+
         <!-- 内容区底部按钮END -->
-        <div class="pro-policy">
+        <div class="pro-policy" style="margin-top: 700px">
           <ul>
             <li>
-              <i class="el-icon-circle-check"></i> 小米自营
-            </li>
-            <li>
-              <i class="el-icon-circle-check"></i> 小米发货
-            </li>
-            <li>
               <i class="el-icon-circle-check"></i> 7天无理由退货
-            </li>
-            <li>
-              <i class="el-icon-circle-check"></i> 7天价格保护
             </li>
           </ul>
         </div>
@@ -100,7 +98,9 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+
 export default {
+
   data() {
     return {
       dis: false, // 控制“加入购物车按钮是否可用”
@@ -119,7 +119,9 @@ export default {
     // 监听商品id的变化，请求后端获取商品数据
     productID: function(val) {
       this.getDetails(val);
-      this.getDetailsPicture(val);
+      this.getDetailsPicture();
+      console.log(val)
+      console.log("监听商品id的变化，请求后端获取商品数据")
     }
   },
   methods: {
@@ -127,28 +129,19 @@ export default {
     // 获取商品详细信息
     getDetails(val) {
       this.$axios
-        .post("/api/product/getDetails", {
-          productID: val
-        })
+        .get("http://localhost:8080/shop/product/"+val)
         .then(res => {
-          this.productDetails = res.data.Product[0];
+          console.log("获取商品详情")
+          console.log(res)
+          this.productDetails = res.data.data;
         })
         .catch(err => {
           return Promise.reject(err);
         });
     },
     // 获取商品图片
-    getDetailsPicture(val) {
-      this.$axios
-        .post("/api/product/getDetailsPicture", {
-          productID: val
-        })
-        .then(res => {
-          this.productPicture = res.data.ProductPicture;
-        })
-        .catch(err => {
-          return Promise.reject(err);
-        });
+    getDetailsPicture() {
+        this.productPicture = this.productDetails.url
     },
     // 加入购物车
     addShoppingCart() {
@@ -214,7 +207,8 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+@import "../assets/css/VueQuillEditor.css";
 /* 头部CSS */
 #details .page-header {
   height: 64px;
@@ -258,14 +252,16 @@ export default {
 /* 主要内容CSS */
 #details .main {
   width: 1225px;
-  height: 560px;
+  height: 400px;
   padding-top: 30px;
   margin: 0 auto;
 }
 #details .main .block {
   float: left;
-  width: 560px;
-  height: 560px;
+  width: 500px;
+  height: 500px;
+  margin-right: 30px;
+  margin-bottom: 30px;
 }
 #details .el-carousel .el-carousel__indicator .el-carousel__button {
   background-color: rgba(163, 163, 163, 0.8);
