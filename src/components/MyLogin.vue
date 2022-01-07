@@ -8,16 +8,17 @@
 <template>
   <div id="myLogin">
     <el-dialog title="登录" width="300px" center :visible.sync="isLogin">
+      {{LoginUser}}
       <el-form :model="LoginUser" :rules="rules" status-icon ref="ruleForm" class="demo-ruleForm">
-        <el-form-item prop="name">
-          <el-input prefix-icon="el-icon-user-solid" placeholder="请输入账号" v-model="LoginUser.name"></el-input>
+        <el-form-item prop="username">
+          <el-input prefix-icon="el-icon-user-solid" placeholder="请输入账号" v-model="LoginUser.username"></el-input>
         </el-form-item>
-        <el-form-item prop="pass">
+        <el-form-item prop="password">
           <el-input
             prefix-icon="el-icon-view"
             type="password"
             placeholder="请输入密码"
-            v-model="LoginUser.pass"
+            v-model="LoginUser.password"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -49,29 +50,31 @@ export default {
     };
     // 密码的校验方法
     let validatePass = (rule, value, callback) => {
-      if (value === "") {
-        return callback(new Error("请输入密码"));
-      }
-      // 密码以字母开头,长度在6-18之间,允许字母数字和下划线
-      const passwordRule = /^[a-zA-Z]\w{5,17}$/;
-      if (passwordRule.test(value)) {
-        this.$refs.ruleForm.validateField("checkPass");
-        return callback();
-      } else {
-        return callback(
-          new Error("字母开头,长度6-18之间,允许字母数字和下划线")
-        );
-      }
+      console.log(rule,value,callback)
+      return callback();
+      // if (value === "") {
+      //   return callback(new Error("请输入密码"));
+      // }
+      // // 密码以字母开头,长度在6-18之间,允许字母数字和下划线
+      // const passwordRule = /^[a-zA-Z]\w{5,17}$/;
+      // if (passwordRule.test(value)) {
+      //   this.$refs.ruleForm.validateField("checkPass");
+      //   return callback();
+      // } else {
+      //   return callback(
+      //     new Error("字母开头,长度6-18之间,允许字母数字和下划线")
+      //   );
+      // }
     };
     return {
       LoginUser: {
-        name: "",
-        pass: ""
+        username: "",
+        password: ""
       },
       // 用户信息校验规则,validator(校验方法),trigger(触发方式),blur为在组件 Input 失去焦点时触发
       rules: {
-        name: [{ validator: validateName, trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }]
+        username: [{ validator: validateName, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }]
       }
     };
   },
@@ -93,22 +96,20 @@ export default {
       // 通过element自定义表单校验规则，校验用户输入的用户信息
       this.$refs["ruleForm"].validate(valid => {
         //如果通过校验开始登录
+        console.log('success validator',valid)
         if (valid) {
           this.$axios
-            .post("/api/users/login", {
-              userName: this.LoginUser.name,
-              password: this.LoginUser.pass
-            })
+            .post("/api/user/login?XDEBUG_SESSION_START=PHPSTORM", this.LoginUser)
             .then(res => {
-              // “001”代表登录成功，其他的均为失败
-              if (res.data.code === "001") {
+              if (res.data.code === 200) {
                 // 隐藏登录组件
                 this.isLogin = false;
                 // 登录信息存到本地
-                let user = JSON.stringify(res.data.user);
+                let user = JSON.stringify(res.data.data);
+                console.log('login',res,user)
                 localStorage.setItem("user", user);
                 // 登录信息存到vuex
-                this.setUser(res.data.user);
+                this.setUser(res.data.data);
                 // 弹出通知框提示登录成功信息
                 this.notifySucceed(res.data.msg);
               } else {

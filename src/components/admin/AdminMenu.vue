@@ -37,25 +37,110 @@ export default {
       var menu = [
         {
           'iconCls': '#',
-          'nameZh': '商品管理',
+          'nameZh': '商品',
           'children': [
             {
               'iconCls': '#',
-              'nameZh': '商品列表',
+              'nameZh': '列表',
               'path': '/admin/GoodsIndex'
             },
             {
               'iconCls': '#',
-              'nameZh': '商品分类',
+              'nameZh': '分类',
               'path': '/admin/CategoryIndex'
             },
             {
               'iconCls': '#',
-              'nameZh': '分类参数',
-              path: '/admin/ParamsIndex'
+              'nameZh': '评论',
+              'path': '/admin/#'
             }
           ]
-        }
+        },
+        {
+          'iconCls': '#',
+          'nameZh': '订单',
+          'children': [
+            {
+              'iconCls': '#',
+              'nameZh': '订单管理',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '售后订单',
+              'path': '/admin/#'
+            }
+          ]
+        },
+        {
+          'iconCls': '#',
+          'nameZh': '营销',
+          'children': [
+            {
+              'iconCls': '#',
+              'nameZh': '优惠卷',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '秒杀管理',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '积分管理',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '推荐商品管理',
+              'path': '/admin/#'
+            }
+          ]
+        },
+        {
+          'iconCls': '#',
+          'nameZh': '统计',
+          'children': [
+            {
+              'iconCls': '#',
+              'nameZh': '商品统计',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '用户统计',
+              'path': '/admin/#'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '交易统计',
+              'path': '/admin/#'
+            }
+          ]
+        },
+        {
+          'iconCls': '#',
+          'nameZh': '用户',
+          'children': [
+            {
+              'iconCls': '#',
+              'nameZh': '列表',
+              'path': '/admin/User'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '角色',
+              'path': '/admin/Role'
+            },
+            {
+              'iconCls': '#',
+              'nameZh': '菜单',
+              'path': '/admin/Menu'
+            },
+          ]
+        },
+
       ]
       return menu
       // return this.$store.state.adminMenus

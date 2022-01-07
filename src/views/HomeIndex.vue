@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-04-05 13:14:48
  -->
 <template>
-  <div id="app" name="app">
+  <div >
     <el-container>
       <!-- 顶部导航栏 -->
       <div class="topbar">
@@ -43,7 +43,7 @@
           </ul>
         </div>
       </div>
-      <!-- 顶部导航栏END -->
+<!--       顶部导航栏END -->
 
       <!-- 顶栏容器 -->
       <el-header>
@@ -56,7 +56,7 @@
         >
           <div class="logo">
             <router-link to="/">
-              <img src="./assets/imgs/logo.png" alt />
+              <img src="../assets/imgs/logo.png" alt />
             </router-link>
           </div>
           <el-menu-item index="/">首页</el-menu-item>
@@ -70,22 +70,22 @@
           </div>
         </el-menu>
       </el-header>
-      <!-- 顶栏容器END -->
+       顶栏容器END
 
       <!-- 登录模块 -->
       <MyLogin></MyLogin>
       <!-- 注册模块 -->
       <MyRegister :register="register" @fromChild="isRegister"></MyRegister>
 
-      <!-- 主要区域容器 -->
+       主要区域容器
       <el-main>
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </el-main>
-      <!-- 主要区域容器END -->
+       主要区域容器END
 
-      <!-- 底栏容器 -->
+       底栏容器
       <el-footer>
         <div class="footer">
           <div class="ng-promise-box">
@@ -110,7 +110,7 @@
           </div>
         </div>
       </el-footer>
-      <!-- 底栏容器END -->
+       底栏容器END
     </el-container>
   </div>
 </template>
@@ -151,22 +151,22 @@ export default {
         this.setShoppingCart([]);
       } else {
         // 用户已经登录,获取该用户的购物车信息
-        this.$axios
-            .post("/api/user/shoppingCart/getShoppingCart", {
-              user_id: val.user_id
-            })
-            .then(res => {
-              if (res.data.code === "001") {
-                // 001 为成功, 更新vuex购物车状态
-                this.setShoppingCart(res.data.shoppingCartData);
-              } else {
-                // 提示失败信息
-                this.notifyError(res.data.msg);
-              }
-            })
-            .catch(err => {
-              return Promise.reject(err);
-            });
+        // this.$axios
+        //     .post("/api/user/shoppingCart/getShoppingCart", {
+        //       user_id: val.user_id
+        //     })
+        //     .then(res => {
+        //       if (res.data.code === "001") {
+        //         // 001 为成功, 更新vuex购物车状态
+        //         this.setShoppingCart(res.data.shoppingCartData);
+        //       } else {
+        //         // 提示失败信息
+        //         this.notifyError(res.data.msg);
+        //       }
+        //     })
+        //     .catch(err => {
+        //       return Promise.reject(err);
+        //     });
       }
     }
   },

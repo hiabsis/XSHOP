@@ -70,7 +70,7 @@ export default {
             })
           }
         })
-        .catch(failResponse => {})
+
       this.dialogFormVisible = false
     }
   }

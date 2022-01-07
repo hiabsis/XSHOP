@@ -12,9 +12,12 @@ import Router from 'vue-router'
 import Goods from '../components/admin/product/GoodsIndex'
 import Category from '../components/admin/product/CategoryIndex'
 import Params from "../components/admin/product/ParamsIndex";
-
+import GoodsEditor from "../components/admin/product/goods/GoodsEditor";
 import GoodsAdd from "../components/admin/product/goods/GoodsAdd";
-
+import User from "../components/admin/user/UserProfile";
+import Role from "../components/admin/user/Role";
+import Menu from  "../views/admin/user/menu/MenuIndex"
+import MenuAdd from "../views/admin/user/menu/MenuAdd";
 Vue.use(Router)
 
 const routes = [
@@ -23,11 +26,11 @@ const routes = [
     name: 'Test',
     component: () => import('../views/Test.vue')
   },
-  {
-    path: '/HomeIndex',
-    name: 'HomeIndex',
-    component: () => import('../views/HomeIndex.vue')
-  },
+  // {
+  //   path: '/HomeIndex',
+  //   name: 'HomeIndex',
+  //   component: () => import('../views/HomeIndex.vue')
+  // },
   {
     path: '/',
     name: 'Home',
@@ -93,6 +96,21 @@ const routes = [
         component: Goods
       },
       {
+        path: 'Menu',
+        name: 'Menu',
+        component: Menu
+      },
+      {
+        path: 'User',
+        name: 'User',
+        component: User
+      },
+      {
+        path: 'Role',
+        name: 'Role',
+        component: Role
+      },
+      {
         path: 'CategoryIndex',
         name: 'CategoryIndex',
         component: Category
@@ -106,6 +124,16 @@ const routes = [
         path: 'GoodsAdd',
         name: 'GoodsAdd',
         component: GoodsAdd
+      },
+      {
+        path: 'MenuAdd',
+        name: 'MenuAdd',
+        component: MenuAdd
+      },
+      {
+        path: 'GoodsEditor',
+        name: 'GoodsEditor',
+        component: GoodsEditor
       },
     ]
   },

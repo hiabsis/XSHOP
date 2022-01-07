@@ -9,22 +9,15 @@
   <div id="myList" class="myList">
     <ul>
       <li v-for="item in list" :key="item.productId">
-        <el-popover placement="top">
-          <p>确定删除吗？</p>
-          <div style="text-align: right; margin: 10px 0 0">
-            <el-button type="primary" size="mini" @click="deleteCollect(item.productId)">确定</el-button>
-          </div>
-          <i class="el-icon-close delete" slot="reference" v-show="isDelete"></i>
-        </el-popover>
-        <router-link :to="{ path: '/goods/details', query: {productID:item.productId} }">
-          <img src="https://statics.igg.com/shop/goods/2018/04/18/6a93da76d1a15b02d8ab69b1cbd491e133366.jpg" alt />
-          <h2>{{item.productName}}</h2>
+        <router-link :to="{ path: '/goods/details', query: {productID:item.id} }">
+          <img :src="'api'+item.file_path" alt />
+          <h2>{{item.name}}</h2>
           <p>
-            <span>{{item.productPrice}}元</span>
+            <span>{{item.price}}元</span>
             <span
               v-show="true"
               class="del"
-            >{{item.productPrice}}元</span>
+            >{{item.price}}元</span>
           </p>
         </router-link>
       </li>
@@ -55,8 +48,22 @@ export default {
 
   },
   methods: {
+    getImageAccessPath(item){
+
+
+      if (undefined === item || null === item ){
+        return '#'
+      }
+      // for (let i=0;i<resources.length;i++){
+      //   if (resources[i].resourceType === type){
+      //     return  'http://localhost:8080'+resources[i].fileAccessPath
+      //   }
+      // }
+      return  '#'
+
+    },
     getCategoryIds(){
-      let categoryIds = [this.list[0].categoryId]
+      let categoryIds = [this.list[0].category_id]
       console.log(categoryIds)
       return categoryIds;
     },
